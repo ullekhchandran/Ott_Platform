@@ -1,0 +1,120 @@
+.adminlogin {
+
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    color: #fff;
+    font-family: 'Arial', sans-serif;
+    height: 100vh;
+
+}
+
+.adminloginform {
+    background: rgba(255, 255, 255, 0.1);
+
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+
+}
+
+.adminloginform a {
+    color: #fff;
+}
+
+.navbarbg,
+.dropdown-menu {
+
+    background-color: rgba(6, 6, 6, 0.5);
+    padding-top: 20px;
+    padding-bottom: 20px;
+
+}
+
+.dropdown-menu .usernavdropdown {
+    color: white;
+    background-color: transparent;
+}
+
+.dropdown-menu .usernavdropdown:hover {
+    background-color: rgba(41, 40, 40, 0.5);
+}
+
+.list-group .userlist {
+    background-color: white
+}
+
+.usermanagebg,.homebg ,.Subscribemanagerbody{
+
+    background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(94, 94, 207, 1) 100%);
+
+}
+
+/* usermanagement  */
+
+.btn-custom {
+    flex: 1;
+    min-width: 120px;
+
+}
+
+
+
+.user-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.user-buttons  {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+@media (min-width: 768px) {
+    .user-item {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .user-buttons {
+        flex-direction: row;
+    }
+}
+
+/* usermanagement  */
+
+
+
+.viewclr,.editmoviedetails,.historybackground{
+    background: linear-gradient(90deg, rgba(20,20,20,1) 0%, rgba(78,53,112,1) 100%);
+}
+.movietable tbody tr{
+   
+     color: white;
+} 
+
+ .subhistory td,.subscriptiontable td{
+    color:white;
+   background:transparent;
+}
+.viewcount ,.revenuereport,.revenuereport select,.subscription,.movieRating,.plan {
+    background: linear-gradient(90deg, rgba(20,20,20,1) 0%, rgba(78,53,112,1) 100%);
+    
+
+}
+
+.viewcount .list-group-item {
+    background-color: transparent; 
+    color: white; 
+    border: 1px solid white ;
+    border-radius: 10px ;
+}
+.revenuetable tr{
+    color: white;
+}
+.movieRating .list-group-item{
+    background-color: transparent;
+    color: white;
+    border: 1px solid white ;
+}

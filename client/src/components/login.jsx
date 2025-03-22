@@ -16,13 +16,17 @@ const Login = () => {
             .then((response) => {
                 if (response.data.message === "loginsuccess") {
                     localStorage.setItem('token', response.data.token);
+                   
                     navigate('/home');
                 } 
-            })
+            })  
             .catch((error) => { 
               
                if(error.response && error.response.status === 401){
                 setErrorMessage("Invalid credentials. Please try again.")
+               }
+               else if(error.response && error.response.status === 402){
+                setErrorMessage("This user is blocked")
                }
                else if(error.response && error.response.status === 500){
                 setErrorMessage("Internal server error. Please try again.")

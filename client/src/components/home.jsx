@@ -10,7 +10,7 @@ const Home = () => {
     const [oldMovies, setOldMovies]= useState([]);
 
     const[searchedMovie,setSearchedMovie]= useState([]);
-    const [currentPage, setCurrentPage]= useState(1);
+    const[userName,setUserName]= useState('')
     
 
 
@@ -33,6 +33,10 @@ const Home = () => {
   
 
     useEffect(()=>{
+        const storedName= localStorage.getItem('userName');
+        if(storedName){
+            setUserName(storedName)
+        }
 
         loadAllMovies();
         
@@ -94,7 +98,7 @@ const Home = () => {
         <div className='home' >
             <Navbar />
             <div className='container mt-5 d-flex flex-column align-items-center '>
-                <h2 className=' text-light mb-4 '>welcome to theAter</h2>
+                <h2 className=' text-light mb-4 '>welcome to <span className='text-info fw-bold ' id='colortheater'>theAter</span>, {userName || 'Guest'}! </h2>
                 <form className='d-flex mb-4' action="" onSubmit={handleSearch}>
                     <input type="search" className='form-control ' placeholder="Search for title or IMDb-ID" style={{ width: '250px', background: 'transparent' }}  onChange={handleInputChange} />
                     <button className='btn  mx-2 searchbutton'>Search</button>

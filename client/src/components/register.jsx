@@ -23,6 +23,7 @@ const Register = () => {
 
     if(response.data === "User registered successfully"){
 
+        localStorage.setItem("userName", name);
         navigate('/login')
     }
     

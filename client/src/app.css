@@ -6,6 +6,11 @@
     background-size: cover;
     background-position: center;
 }
+#colortheater{
+    color: rgb(250, 247, 247)!important;
+    -webkit-text-stroke: .51px red; /* White border around the text */
+    font-weight: bold;
+}
 
 .signupform,
 .signupform {
