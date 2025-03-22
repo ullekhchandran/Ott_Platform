@@ -64,7 +64,7 @@
     align-items: flex-start;
 }
 
-.user-buttons {
+.user-buttons  {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;

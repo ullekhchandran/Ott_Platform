@@ -2,7 +2,9 @@ const mongoose = require('mongoose')
 
 const movieSchema = new mongoose.Schema({
    count:{
-    type:Number
+    
+    type:Number,
+    default:0
 
    },
 
@@ -33,12 +35,7 @@ const movieSchema = new mongoose.Schema({
         required: true
 
     },
-    count: {
-
-        type: Number,
-        default: 0
-
-    },
+   
     
     createdAt:{
       type:Date,

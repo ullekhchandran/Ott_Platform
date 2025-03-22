@@ -11,7 +11,7 @@ const { validationResult } = require('express-validator');
 
 
 router.post('/register', async (req, res) => {
-  const { name, email, password, confirmPassword } = req.body;
+  const {name, email, password, confirmPassword } = req.body;
 
   if (password !== confirmPassword) {
     return res.status(400).json("Password didn't match");
@@ -58,6 +58,10 @@ router.post('/login', (req, res) => {
     .then(foundUser => {
       if (!foundUser || !bcrypt.compareSync(password, foundUser.password)) {
         return res.status(401).json({ message: "invalidcredentials" })
+      }
+      if(foundUser.block === true){
+        return res.status(402).json({message:"User had blocked"})
+
       }
 
 

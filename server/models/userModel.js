@@ -80,7 +80,18 @@ const userSchema =new mongoose.Schema({
         type:String,
 
     },
+
+    count:{
+      
+      type:Number,
+      default:0
+
+    },
     isAdmin:{
+      type:Boolean,
+      default:false
+    },
+    block:{
       type:Boolean,
       default:false
     },

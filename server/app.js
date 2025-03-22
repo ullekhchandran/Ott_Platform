@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var session = require('express-session');
 const cors =require('cors')
 
 var indexRouter = require('./routes/index');
@@ -12,6 +13,20 @@ var adminRouter= require('./routes/admin');
 var app = express();
 
 const db=require('./database/db')
+
+
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'your-secret-key', // Use a secure secret
+  resave: false, // Avoid resaving unchanged sessions
+  saveUninitialized: false, // Don't save empty sessions
+  cookie: {
+      httpOnly: true, // Prevent client-side access
+      secure: process.env.NODE_ENV === 'production', // Ensure HTTPS in production
+      maxAge: 3600000 // 1 hour in milliseconds
+  }
+}));
+
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
