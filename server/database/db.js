@@ -1,7 +1,7 @@
 const mongoose= require('mongoose');
 require('dotenv').config()
 
-mongoose.connect('mongodb://localhost:27017/ott_database')
+mongoose.connect('mongodb+srv://ullekhchandran:Threedots@99@cluster0.lddmr.mongodb.net/')
 
 const db= mongoose.connection;
 db.on('error',console.error.bind(console,'MongoDB connection error:'));
