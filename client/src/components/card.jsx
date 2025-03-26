@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import Rating from './rating';
 import axios from 'axios';
+import { BACKEND_URL } from '../config';
 
 
 
@@ -21,7 +22,7 @@ function Card({ image, title, id, isWatchLaterPage, onRemoveMovie, isWatchHistor
      console.log("IMAGE IS",image)
     console.log("Navigating to movie with Id:", id);
 
-    axios.post('http://localhost:3000/watchhistory', { movieId: id }, {
+    axios.post(`${BACKEND_URL}/watchhistory`, { movieId: id }, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
     })
       .then((response) => {
@@ -54,7 +55,7 @@ function Card({ image, title, id, isWatchLaterPage, onRemoveMovie, isWatchHistor
      
       console.log("movie id is", id);
 
-      axios.delete('http://localhost:3000/removemovie', {
+      axios.delete(`${BACKEND_URL}/removemovie`, {
         data: { movieId: id },
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       })
@@ -86,7 +87,7 @@ function Card({ image, title, id, isWatchLaterPage, onRemoveMovie, isWatchHistor
     } else if (!isAdded) {
 
 
-      axios.post(`http://localhost:3000/watchlater/`, { movieId: id }, {
+      axios.post(`${BACKEND_URL}/watchlater/`, { movieId: id }, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       })
         .then((response) => {
@@ -121,7 +122,7 @@ function Card({ image, title, id, isWatchLaterPage, onRemoveMovie, isWatchHistor
 
   return (
     <div className='card border-none animate-card' style={{ cursor: 'pointer' }}>
-      <img src={`http://localhost:3000/images/${image}`} alt="Movie Poster" className="card-img img-fluid" onClick={handleNavigate} />
+      <img src={`${BACKEND_URL}/images/${image}`} alt="Movie Poster" className="card-img img-fluid" onClick={handleNavigate} />
       <div className='card-body'>
         <h4 className='card-title text-light mb-0'>{title}</h4>
         {isWatchHistoryPage && <p className='text-secondary'>Watched on : {new Date(watchedAt).toLocaleDateString()}</p>}

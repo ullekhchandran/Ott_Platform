@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Navbar from './navbar';
 import Rating from './rating';
 import axios from 'axios';
+import { BACKEND_URL } from '../config';
 import { useParams } from 'react-router-dom';
 
 function View() {
@@ -10,7 +11,7 @@ function View() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    axios.get(`http://localhost:3000/movie/${id}`)
+    axios.get(`${BACKEND_URL}/movie/${id}`)
       .then(response => {
         setMovie(response.data.movie); // Movie data
         setUser(response.data.user); // User data, if needed

@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import Navbari from './navbari';
 import axios from 'axios';
+import { BACKEND_URL } from '../config';
 import { useNavigate } from 'react-router-dom';
+
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -11,8 +13,9 @@ const Login = () => {
     
     const handleSubmit = (e) => {
         e.preventDefault();
-        
-        axios.post('http://localhost:3000/login', { email, password })
+        console.log(email,password)
+       
+        axios.post(`${BACKEND_URL}/login`, { email, password })
             .then((response) => {
                 if (response.data.message === "loginsuccess") {
                     localStorage.setItem('token', response.data.token);

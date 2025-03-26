@@ -1,7 +1,8 @@
 import React from 'react'
 import Navbar from './navbar'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
+import axios from 'axios';
+import { BACKEND_URL } from '../config';
 import { useState } from 'react'
 
 
@@ -19,7 +20,7 @@ function ChangePassword() {
 
         const userData = { currentPassword, newPassword, confirmPassword }
         console.log(userData)
-        axios.post('http://localhost:3000/changepassword', userData, {
+        axios.post(`${BACKEND_URL}/changepassword`, userData, {
             headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
 
         })

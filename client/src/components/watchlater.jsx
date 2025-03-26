@@ -2,6 +2,7 @@ import React from 'react';
 import Navbar from './navbar';
 import Cards from './cards';
 import axios from 'axios';
+import { BACKEND_URL } from '../config';
 import { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -13,7 +14,7 @@ const Watchlater = () => {
   const moviesPerPage = 3;  // Set movies per page to 3
 
   const fetchWatchLaterMovies = () => {
-    axios.get('http://localhost:3000/watchlater', {
+    axios.get(`${BACKEND_URL}/watchlater`, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
     })
       .then(response => {

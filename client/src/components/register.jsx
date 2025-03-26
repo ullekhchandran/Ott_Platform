@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import Navbari from './navbari'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
+import axios from 'axios';
+import { BACKEND_URL } from '../config';
 
 const Register = () => {
   
@@ -17,7 +18,7 @@ const Register = () => {
 
    e.preventDefault();
 
-   axios.post('http://localhost:3000/register',{name,email,password,confirmPassword})
+   axios.post(`${BACKEND_URL}/register`,{name,email,password,confirmPassword})
    .then((response)=>{
 
 

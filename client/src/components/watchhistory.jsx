@@ -4,13 +4,14 @@ import Cards from './cards';
 import { useState } from 'react';
 import axios from 'axios';
 import { useEffect } from 'react';
+import { BACKEND_URL } from '../config';
 
 
 function Watchhistory() {
 
   const [watchHistoryMovies,setwatchHistoryMovies]= useState([])
   useEffect(()=>{
-    axios.get('http://localhost:3000/watchhistory',{
+    axios.get(`${BACKEND_URL}/watchhistory`,{
       headers:{Authorization: `Bearer ${localStorage.getItem('token')}`}
 
     }).then((response)=>{
