@@ -5,6 +5,7 @@ import Oldmoviecards from './oldmoviecards';
 import CustomIcons from './pagination';
 import { useEffect ,useState} from 'react';
 import axios from 'axios';
+import { BACKEND_URL } from '../config';
 const Home = () => {
     const [latestMovies,setLatestMovies]= useState([]);
     const [oldMovies, setOldMovies]= useState([]);
@@ -15,7 +16,7 @@ const Home = () => {
 
 
     const loadAllMovies=()=>{
-        axios.get('http://localhost:3000/movies',{
+        axios.get(`${BACKEND_URL}/movies`,{
 
             headers:{Authorization: `Bearer ${localStorage.getItem('token')}`}
         })
@@ -41,7 +42,7 @@ const Home = () => {
         loadAllMovies();
         
 
-        axios.get('http://localhost:3000/latestMovies',{
+        axios.get(`${BACKEND_URL}/latestMovies`,{
             headers:{Authorization: `Bearer ${localStorage.getItem('token')}`}
         })
         .then(response=>{
@@ -70,7 +71,7 @@ const Home = () => {
 
      
         console.log("searched movie from input:", searchedMovie)  
-        axios.get(`http://localhost:3000/searchmovie?q=${searchedMovie}`, {
+        axios.get(`${BACKEND_URL}/searchmovie?q=${searchedMovie}`, {
             headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
         })
         .then(response => {

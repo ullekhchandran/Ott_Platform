@@ -8,7 +8,7 @@ import { BACKEND_URL } from '../config';
 
 
 function Card({ image, title, id, isWatchLaterPage, onRemoveMovie, isWatchHistoryPage, watchedAt, count }) {
-  const [errorMessage, setErrorMessage] = useState('');
+  
   const [isAdded, setIsAdded] = useState(isWatchLaterPage);
 
   const navigate = useNavigate();

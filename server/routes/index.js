@@ -38,7 +38,7 @@ router.post('/register', async (req, res) => {
     const signupUser = new userModel({ name, email, password: hashedPassword });
     await signupUser.save();
 
-    return res.status(201).json("User registered successfully");
+    return console.log("User registered successfully");
   } catch (error) {
     console.error(error);
     if (!res.headersSent) {
@@ -50,8 +50,9 @@ router.post('/register', async (req, res) => {
 
 router.post('/login', (req, res) => {
 
-
+  console.log(req)
   const { email, password } = req.body;
+  console.log(req.body)
   userModel.findOne({ email })
 
 

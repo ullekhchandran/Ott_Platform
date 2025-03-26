@@ -46,14 +46,14 @@ function View() {
               controls
             /> */}
               <video className='w-100' style={{height:"400px", objectFit:'cover'}} controls>
-              <source src={`http://localhost:3000/images/${movie.video}`} type="video/mp4" />
+              <source src={`${BACKEND_URL}/images/${movie.video}`} type="video/mp4" />
               Your browser does not support the HTML5 video tag.
             </video>
           </div>
           <div className='col-lg-6 pt-1'>
         
             <img
-              src={`http://localhost:3000/images/${movie.thumbnail}`}
+              src={`${BACKEND_URL}/images/${movie.thumbnail}`}
               className='w-100'
               style={{ height: '400px', objectFit: 'fill' }}
               alt="Movie Poster"

@@ -65,11 +65,11 @@
         <div class="row">
             <div class="col-md-6 col-lg-6 col-sm-12 ">
 
-                <div class="row container-fluid"><img src=" http://localhost:3000/images/<%= movie.thumbnail %>" width="100%"
+                <div class="row container-fluid"><img src=" ${BACKEND_URL}/images/<%= movie.thumbnail %>" width="100%"
                         height="280px" alt=""></div>
                 <div class="row container-fluid ">
                     <video width="100%" height="280px" controls>
-                        <source src="http://localhost:3000/images/<%= movie.video %>" type="video/mp4">
+                        <source src="${BACKEND_URL}/images/<%= movie.video %>" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
                 </div>
