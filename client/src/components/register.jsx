@@ -21,8 +21,9 @@ const Register = () => {
    axios.post(`${BACKEND_URL}/register`,{name,email,password,confirmPassword})
    .then((response)=>{
 
+    console.log("Response from backend:", response.data);
 
-    if(response.data === "User registered successfully"){
+    if(response.data.message === "User registered successfully"){
 
         localStorage.setItem("userName", name);
         navigate('/login')

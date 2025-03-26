@@ -29,6 +29,7 @@ router.post('/register', async (req, res) => {
   try {
 
     const existingUser = await userModel.findOne({ email });
+    console.log(` here is the ${existingUser}`)
     if (existingUser) {
       return res.status(400).json("Email already taken");
     }
@@ -38,7 +39,7 @@ router.post('/register', async (req, res) => {
     const signupUser = new userModel({ name, email, password: hashedPassword });
     await signupUser.save();
 
-    return console.log("User registered successfully");
+    return res.status(200).json({message:"User registered successfully"})
   } catch (error) {
     console.error(error);
     if (!res.headersSent) {
