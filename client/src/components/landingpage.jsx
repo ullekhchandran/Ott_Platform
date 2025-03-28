@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import bgImage from "../assets/movie1.jpg";
 import Navbari from './navbari';
 
 function LandingPage(){
@@ -16,7 +16,7 @@ function LandingPage(){
     return(
         <div>
             
-            <div className='landingpage'>
+            <div className='landingpage' style={{backgroundImage:`url(${bgImage})`}}>
             <Navbari isSignup={true} />
 
             <div className='text-light landingpagetitle mx-5'>
