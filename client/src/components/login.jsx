@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import bgImage from "../assets/image/movie1.jpg";
 import Navbari from './navbari';
 import axios from 'axios';
 import { BACKEND_URL } from '../config';
@@ -44,7 +45,7 @@ const Login = () => {
 
     return (
         <div>
-            <div className='registerbg'>
+            <div className='registerbg' style={{backgroundImage:`url(${bgImage})`}}>
                 <Navbari isSignup={false}  />
                 <div className="container d-flex justify-content-center align-items-center signupform my-5">
                     <form className="w-50 my-5" onSubmit={handleSubmit}>
