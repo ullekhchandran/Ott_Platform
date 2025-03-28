@@ -103,7 +103,7 @@ const verifyToken = (req, res, next) => {
 
 
 
-router.get('/home', verifyToken, (req, res) => {
+router.get('/home', (req, res) => {
 
   res.status(200).json({ message: "Welcome to home page!,you are authenticated " })
 
@@ -115,7 +115,7 @@ router.get('/home', verifyToken, (req, res) => {
 
 
 
-router.get("/movies", verifyToken, (req, res) => {
+router.get("/movies", (req, res) => {
   movieModel.find()
     .then(movies => {
       res.status(200).json({ message: "movies finded", movies })
@@ -126,7 +126,7 @@ router.get("/movies", verifyToken, (req, res) => {
     })
 })
 
-router.get("/latestMovies", verifyToken, (req, res) => {
+router.get("/latestMovies", (req, res) => {
   movieModel.find()
     .sort({ createdAt: -1 })
     .limit(6)
@@ -170,7 +170,7 @@ router.get("/movie/:id", (req, res) => {
 
 
 
-router.get("/latestmovies", verifyToken, (req, res) => {
+router.get("/latestmovies", (req, res) => {
 
   movieModel.find()
     .sort({ createdAt: -1 })
@@ -189,7 +189,7 @@ router.get("/latestmovies", verifyToken, (req, res) => {
               //-----------------  search------------------
 
 
-router.get('/searchmovie',verifyToken,(req,res)=>{
+router.get('/searchmovie',(req,res)=>{
    const searchTerm= req.query.q
    console.log("Search term is:",searchTerm)
    console.log("Search term type:", typeof searchTerm);
@@ -234,7 +234,7 @@ router.get('/searchmovie',verifyToken,(req,res)=>{
 
 
 
-router.post("/watchlater", verifyToken, (req, res) => {
+router.post("/watchlater", (req, res) => {
 
   const userId = req.userId;
   const { movieId } = req.body;
@@ -285,7 +285,7 @@ router.post("/watchlater", verifyToken, (req, res) => {
 
 
 
-router.get('/watchlater', verifyToken, (req, res) => {
+router.get('/watchlater', (req, res) => {
 
   const userId = req.userId
   console.log(userId)
@@ -308,7 +308,7 @@ router.get('/watchlater', verifyToken, (req, res) => {
 
 });
 
-router.delete("/removemovie", verifyToken, (req, res) => {
+router.delete("/removemovie", (req, res) => {
 
   const userId = req.userId;
   const { movieId } = req.body;
@@ -333,7 +333,7 @@ router.delete("/removemovie", verifyToken, (req, res) => {
 });
 
 
-router.post('/watchhistory', verifyToken, (req, res) => {
+router.post('/watchhistory', (req, res) => {
 
   const userId = req.userId;
   const { movieId } = req.body
@@ -390,7 +390,7 @@ router.post('/watchhistory', verifyToken, (req, res) => {
 });
 
 
-router.get('/watchhistory', verifyToken, (req, res) => {
+router.get('/watchhistory', (req, res) => {
 
 
   const userId = req.userId;
@@ -414,7 +414,7 @@ router.get('/watchhistory', verifyToken, (req, res) => {
 
 });
 
-router.post('/changepassword',verifyToken, (req, res) => {
+router.post('/changepassword', (req, res) => {
 
   const userId= req.userId;
 
