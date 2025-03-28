@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Navbari from './navbari'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
+import bgImage from "../assets/movie1.jpg";
 import { BACKEND_URL } from '../config';
 
 const Register = () => {
@@ -72,7 +73,7 @@ const Register = () => {
   return (
   <div>
     
-    <div className='registerbg'>
+    <div className='registerbg'style={{backgroundImage:`url(${bgImage})`}}>
     <Navbari  isSignup={true}  />
     <div className="container d-flex justify-content-center align-items-center signupform mt-5  ">
     <form className="w-50 my-5" onSubmit={handleSubmit} >

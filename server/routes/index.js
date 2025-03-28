@@ -80,24 +80,24 @@ router.post('/login', (req, res) => {
 });
 
 const verifyToken = (req, res, next) => {
-  const token = req.headers.authorization;
-  console.log("Incoming token", token);
+  const authHeader = req.headers.authorization; // Full Authorization header
+  console.log("Incoming token:", authHeader);
 
-  if (!token) {
-
-    return res.status(401).json({ message: 'Access denied.No token provided.' })
-
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res.status(401).json({ message: 'Access denied. No token provided.' });
   }
 
-  jwt.verify(token.split(' ')[1], process.env.JWT_SECRET, (err, decoded) => {
+  const token = authHeader.split(' ')[1]; // Extract token part
+  
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
     if (err) {
-      return res.status(403).json({ message: "Invalid or expired token" })
+      return res.status(403).json({ message: "Invalid or expired token" });
     }
     req.userId = decoded.userId;
     next();
   });
+};
 
-}
 
 
 
