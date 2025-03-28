@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import bgImage from "../assets/image/movie1.jpg";
+import bgImage from "../assets/movie1.jpg";
 import Navbari from './navbari';
 import axios from 'axios';
 import { BACKEND_URL } from '../config';
