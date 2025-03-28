@@ -34,7 +34,7 @@ const Home = () => {
   
 
     useEffect(()=>{
-        const storedName= localStorage.getItem('userName');
+        const storedName= localStorage.getItem('name');
         if(storedName){
             setUserName(storedName)
         }

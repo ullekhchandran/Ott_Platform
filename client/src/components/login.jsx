@@ -17,9 +17,11 @@ const Login = () => {
         console.log("bACKEND URL: ",BACKEND_URL)
         axios.post(`${BACKEND_URL}/login`, { email, password })
             .then((response) => {
+              
                 if (response.data.message === "loginsuccess") {
                     localStorage.setItem('token', response.data.token);
-                   
+                
+                    localStorage.setItem('name',response.data.userName)
                     navigate('/home');
                 } 
             })  

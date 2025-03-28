@@ -1,6 +1,6 @@
 .registerbg {
 
-    background-image: url("images/movie1.jpg");
+    background-image: url("movie1.jpg");
     height: 100vh;
     width: 100wh;
     background-size: cover;
@@ -54,7 +54,7 @@
 
 
 .landingpage {
-    background-image: url("/images/movie1.jpg");
+    background-image: url("movie1.jpg");
     height: 100vh;
     width: 100wh;
     background-size: cover;

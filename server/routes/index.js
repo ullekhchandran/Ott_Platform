@@ -58,6 +58,7 @@ router.post('/login', (req, res) => {
 
 
     .then(foundUser => {
+      console.log("Found user:",foundUser)
       if (!foundUser || !bcrypt.compareSync(password, foundUser.password)) {
         return res.status(401).json({ message: "invalidcredentials" })
       }
@@ -67,15 +68,8 @@ router.post('/login', (req, res) => {
       }
 
 
-      const crypto = require('crypto');
-      const generateSecretKey = () => {
-        return crypto.randomBytes(32).toString('hex');
-      };
-
-      console.log(generateSecretKey());
-
-      const token = jwt.sign({ userId: foundUser._id }, process.env.JWT_SECRET = generateSecretKey(), { expiresIn: '1h' });
-      return res.status(201).json({ message: "loginsuccess", token })
+      const token = jwt.sign({ userId: foundUser._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+      return res.status(201).json({ message: "loginsuccess", token,userName:foundUser.name})
     })
 
     .catch(error => {
