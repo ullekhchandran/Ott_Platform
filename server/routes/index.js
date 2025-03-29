@@ -11,7 +11,7 @@ const { validationResult } = require('express-validator');
 
 
 router.post('/register', async (req, res) => {
-  const {name, email, password, confirmPassword } = req.body;
+  const { name, email, password, confirmPassword } = req.body;
 
   if (password !== confirmPassword) {
     return res.status(400).json("Password didn't match");
@@ -39,7 +39,7 @@ router.post('/register', async (req, res) => {
     const signupUser = new userModel({ name, email, password: hashedPassword });
     await signupUser.save();
 
-    return res.status(200).json({message:"User registered successfully"})
+    return res.status(200).json({ message: "User registered successfully" })
   } catch (error) {
     console.error(error);
     if (!res.headersSent) {
@@ -49,46 +49,47 @@ router.post('/register', async (req, res) => {
 });
 
 
-router.post('/login', (req, res) => {
+router.post("/login", async (req, res) => {
+  try {
+    console.log(req);
+    const { email, password } = req.body;
+    console.log(req.body);
 
-  console.log(req)
-  const { email, password } = req.body;
-  console.log(req.body)
-  userModel.findOne({ email })
+    const foundUser = await userModel.findOne({ email });
 
+    console.log("Found user:", foundUser);
+    if (!foundUser || !bcrypt.compare(password, foundUser.password)) {
+      return res.status(401).json({ message: "Invalid credentials" })
+    }
+    if (foundUser.block === true) {
+      return res.status(402).json({ message: "User has been blocked" });
+    }
 
-    .then(foundUser => {
-      console.log("Found user:",foundUser)
-      if (!foundUser || !bcrypt.compareSync(password, foundUser.password)) {
-        return res.status(401).json({ message: "invalidcredentials" })
-      }
-      if(foundUser.block === true){
-        return res.status(402).json({message:"User had blocked"})
+    const token = jwt.sign({ userId: foundUser._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
 
-      }
-
-
-      const token = jwt.sign({ userId: foundUser._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-      return res.status(201).json({ message: "loginsuccess", token,userName:foundUser.name})
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",//User secure cookies in production
+      sameSite: 'strict',
+      maxAge: 3600000//1 hour
     })
+    return res.status(201).json({ message: "loginsuccess", userName: foundUser.name })
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server Error" })
+  }
+})
 
-    .catch(error => {
-      console.error(error);
-      res.status(500).json("Internal server Error")
-    })
 
-});
 
 const verifyToken = (req, res, next) => {
-  const authHeader = req.headers.authorization; // Full Authorization header
-  console.log("Incoming token:", authHeader);
+  const token = req.cookies.token; // Extract token from cookies
+  console.log("Incoming token from cookie:", token);
 
-  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+  if (!token) {
     return res.status(401).json({ message: 'Access denied. No token provided.' });
   }
 
-  const token = authHeader.split(' ')[1]; // Extract token part
-  
   jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
     if (err) {
       return res.status(403).json({ message: "Invalid or expired token" });
@@ -97,6 +98,7 @@ const verifyToken = (req, res, next) => {
     next();
   });
 };
+
 
 
 
@@ -186,38 +188,39 @@ router.get("/latestmovies", verifyToken, (req, res) => {
 
 });
 
-              //-----------------  search------------------
+//-----------------  search------------------
 
 
-router.get('/searchmovie',verifyToken,(req,res)=>{
-   const searchTerm= req.query.q
-   console.log("Search term is:",searchTerm)
-   console.log("Search term type:", typeof searchTerm);
+router.get('/searchmovie', verifyToken, (req, res) => {
+  const searchTerm = req.query.q
+  console.log("Search term is:", searchTerm)
+  console.log("Search term type:", typeof searchTerm);
 
-   if(!searchTerm){
-    return res.status(400).json({message:"Search term is required"})
-   }
+  if (!searchTerm) {
+    return res.status(400).json({ message: "Search term is required" })
+  }
 
-   movieModel.find({
-    title:{ $regex:searchTerm, $options:"i"}})
-   
-   
-   .then((movies)=>{
-    console.log( "movies are",movies);
-
-    if(movies.length === 0){
-     
-      return res.status(404).json({message:"No movies found"})
-
-    }
-    return res.status(200).json({movies})   
-
-    
-   })
-   .catch((error)=>{
-    console.error("Error searching for movies:",error);
-    return res.status(500).json({error:"Internal server error"});
+  movieModel.find({
+    title: { $regex: searchTerm, $options: "i" }
   })
+
+
+    .then((movies) => {
+      console.log("movies are", movies);
+
+      if (movies.length === 0) {
+
+        return res.status(404).json({ message: "No movies found" })
+
+      }
+      return res.status(200).json({ movies })
+
+
+    })
+    .catch((error) => {
+      console.error("Error searching for movies:", error);
+      return res.status(500).json({ error: "Internal server error" });
+    })
 
 
 
@@ -414,12 +417,12 @@ router.get('/watchhistory', verifyToken, (req, res) => {
 
 });
 
-router.post('/changepassword',verifyToken, (req, res) => {
+router.post('/changepassword', verifyToken, (req, res) => {
 
-  const userId= req.userId;
+  const userId = req.userId;
 
 
-  const {currentPassword, newPassword, confirmPassword } = req.body;
+  const { currentPassword, newPassword, confirmPassword } = req.body;
 
   userModel.findById(userId)
     .then((user) => {
