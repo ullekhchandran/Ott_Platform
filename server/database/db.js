@@ -1,5 +1,8 @@
 const mongoose= require('mongoose');
-require('dotenv').config()
+if (process.env.NODE_ENV !== "production") {
+    require("dotenv").config();
+}
+
 console.log(process.env.MONGODB_ATLAS_CONNECTION_URL)
 mongoose.connect(process.env.MONGODB_ATLAS_CONNECTION_URL)
 
