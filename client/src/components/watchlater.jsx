@@ -15,7 +15,7 @@ const Watchlater = () => {
   const moviesPerPage = 3;  // Set movies per page to 3
   const navigate=useNavigate()
   const fetchWatchLaterMovies = () => {
-    axios.get(`${BACKEND_URL}/watchlater`)
+    axios.get(`${BACKEND_URL}/watchlater`, { withCredentials: true })
       .then(response => {
         setWatchlaterMovies(response.data.watchLaterMovies);
         console.log(response.data.watchLaterMovies);
