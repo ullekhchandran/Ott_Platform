@@ -75,8 +75,8 @@ router.post("/login", async (req, res) => {
 
     res.cookie("token", token, {
       httpOnly: true,  // Prevents client-side access
-      secure:false,   // Set to `true` in production (HTTPS)
-      sameSite: "lax", // Allow cross-origin requests
+      secure:true,   // Set to `true` in production (HTTPS)
+      sameSite: "None", // Allow cross-origin requests
       maxAge: 3600000  // 1 hour expiration
     });
    
