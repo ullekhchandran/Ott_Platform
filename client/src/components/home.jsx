@@ -16,7 +16,9 @@ const Home = () => {
 
 
     const loadAllMovies=()=>{
-        axios.get(`${BACKEND_URL}/movies`)
+        axios.get(`${BACKEND_URL}/movies`, {
+            withCredentials: true // Add this line
+          })
         
         .then(response=>{
             setOldMovies(response.data.movies);
@@ -41,7 +43,9 @@ const Home = () => {
         loadAllMovies();
         
 
-        axios.get(`${BACKEND_URL}/latestMovies`)
+        axios.get(`${BACKEND_URL}/latestMovies`, {
+            withCredentials: true // Add this line
+          })
         .then(response=>{
             setLatestMovies(response.data.movies);
            

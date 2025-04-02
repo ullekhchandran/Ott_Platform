@@ -16,7 +16,9 @@ const Login = () => {
         e.preventDefault();
         console.log(email,password)
         console.log("bACKEND URL: ",BACKEND_URL)
-        axios.post(`${BACKEND_URL}/login`, { email, password })
+        axios.post(`${BACKEND_URL}/login`, { email, password }, {
+            withCredentials: true // Add this line
+          })
             .then((response) => {
               
                 if (response.data.message === "Login successful") {
