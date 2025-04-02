@@ -3,7 +3,6 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var session = require('express-session');
 const cors = require('cors');
 require('dotenv').config();
 
@@ -15,17 +14,11 @@ var app = express();
 
 const db=require('./database/db')
 
-
-app.use(session({
-  secret: process.env.SESSION_SECRET || 'your-secret-key', // Use a secure secret
-  resave: false, // Avoid resaving unchanged sessions
-  saveUninitialized: false, // Don't save empty sessions
-  cookie: {
-      httpOnly: true, // Prevent client-side access
-      secure: process.env.NODE_ENV === 'production', // Ensure HTTPS in production
-      maxAge: 3600000 // 1 hour in milliseconds
-  }
+app.use(cors({
+  origin: process.env.FRONTEND_URL,  // Allow frontend to access the backend
+  credentials: true  // Allow cookies & authentication tokens
 }));
+
 
 
 
@@ -35,10 +28,11 @@ app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(express.urlencoded({ extended: false }));
+
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(cors())
+
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

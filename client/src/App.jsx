@@ -15,9 +15,9 @@ import Watchlater from "./components/watchlater";
 import Watchhistory from "./components/watchhistory";
 import ChangePassword from "./components/changePassword";
 import './app.css';
-
+import { ToastContainer } from 'react-toastify';
 import ProtectedRoute from "./components/protectedRoute";
-
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
 
@@ -28,6 +28,7 @@ function App() {
   return (
     
     <BrowserRouter>
+    <ToastContainer position="top-center" autoClose={3000} />
     <Routes>
       <Route path="/" element={<LandingPage/>}></Route>
       <Route path="/register" element={<Register/>}></Route>
@@ -41,7 +42,7 @@ function App() {
       <Route path="/watchlater" element={<ProtectedRoute><Watchlater/></ProtectedRoute>}></Route>
       <Route path="/watchhistory" element={<ProtectedRoute><Watchhistory/></ProtectedRoute>}/>
       <Route path="/changepassword" element={<ProtectedRoute><ChangePassword/></ProtectedRoute>}></Route>
-    
+      
     </Routes>
     </BrowserRouter>
     

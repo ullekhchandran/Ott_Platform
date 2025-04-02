@@ -11,10 +11,7 @@ function Watchhistory() {
 
   const [watchHistoryMovies,setwatchHistoryMovies]= useState([])
   useEffect(()=>{
-    axios.get(`${BACKEND_URL}/watchhistory`,{
-      headers:{Authorization: `Bearer ${localStorage.getItem('token')}`}
-
-    }).then((response)=>{
+    axios.get(`${BACKEND_URL}/watchhistory`).then((response)=>{
       setwatchHistoryMovies(response.data.watchHistory)
       console.log(response.data.watchHistory);
 

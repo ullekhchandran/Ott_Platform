@@ -5,26 +5,28 @@ import Rating from './rating';
 import axios from 'axios';
 import { BACKEND_URL } from '../config';
 
+import { toast } from 'react-toastify';
+
 
 
 function Card({ image, title, id, isWatchLaterPage, onRemoveMovie, isWatchHistoryPage, watchedAt, count }) {
   
-  const [isAdded, setIsAdded] = useState(isWatchLaterPage);
+  const [isAdded, setIsAdded] = useState(false);
 
   const navigate = useNavigate();
 
 
 
-
+useEffect(() => {
+  setIsAdded(isWatchLaterPage);
+}, [isWatchLaterPage]);
 
   const handleNavigate = () => {
     navigate(`/movie/${id}`);
      console.log("IMAGE IS",image)
     console.log("Navigating to movie with Id:", id);
 
-    axios.post(`${BACKEND_URL}/watchhistory`, { movieId: id }, {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-    })
+    axios.post(`${BACKEND_URL}/watchhistory`, { movieId: id })
       .then((response) => {
         if (response.data.message === "movie saved to watchHistorySchema") {
          
@@ -38,7 +40,12 @@ function Card({ image, title, id, isWatchLaterPage, onRemoveMovie, isWatchHistor
         }
       })
       .catch((error) => {
-        console.error("Error adding movie to watch history:", error)
+        if (error.response && error.response.data.message === "movie already added") {
+          console.warn("Movie already in Watch Later!"); 
+          toast.error("Movie is already in Watch Later!"); // ✅ Show toast warning
+      } else {
+          console.error("Error adding to watch later:", error);
+      }
       })
 
 
@@ -46,73 +53,40 @@ function Card({ image, title, id, isWatchLaterPage, onRemoveMovie, isWatchHistor
 
 
   const handleClick = () => {
-    setIsAdded(true)
-
     console.log("Button clicked, current state of isAdded:", isAdded);
-  
 
     if (isAdded) {
-     
-      console.log("movie id is", id);
+        console.log("Removing movie id is", id);
 
-      axios.delete(`${BACKEND_URL}/removemovie`, {
-        data: { movieId: id },
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-      })
+        axios.delete(`${BACKEND_URL}/removemovie`, {
+            data: { movieId: id }
+        })
         .then((response) => {
-          if (response.data.message === 'Movie removed from watchLaterSchema') {
-           
-
-            setIsAdded(false);
-            console.log("movie removed from watchLaterSchema", isAdded);
-            setErrorMessage("Movie removed from watchLater")
-       
-            // window.alert("Movie removed from watchLater")
-            
-            onRemoveMovie(id);
-
-          
-          
-         }
-
+            if (response.data.message === 'Movie removed from watchLaterSchema') {
+                setIsAdded(false);
+                console.log("Movie removed from watchLaterSchema");
+                onRemoveMovie(id);  // This ensures UI updates instantly
+            }
         })
         .catch((error) => {
-          if (error.response && error.response.status === 404) {
-            setErrorMessage("User not found MESSAGE FROM CARD component");
-          } else if (error.response && error.response.status === 500) {
-            setErrorMessage('Error while removing movie from watchLaterSchema');
-          }
+            console.error("Error removing movie:", error);
         });
 
-    } else if (!isAdded) {
-
-
-      axios.post(`${BACKEND_URL}/watchlater/`, { movieId: id }, {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-      })
+    } else {
+        axios.post(`${BACKEND_URL}/watchlater/`, { movieId: id })
         .then((response) => {
-          if (response.data.message === "movie added to watch laterschema") {
-            setIsAdded(true)
-            console.log("added to watch later");
-            setErrorMessage("movie added to watch later")
-            // window.alert("movie added to watch later")
-          }
-
-
+            if (response.data.message === "movie added to watch laterschema") {
+                setIsAdded(true);
+                console.log("Added to watch later");
+            }
         })
         .catch(error => {
-          if (error.response && error.response.status === 400) {
-            if (error.response.data.message === 'user not found') {
-              setErrorMessage("user not found");
-            } else if (error.response.data.message === 'movie already added') {
-              console.log('movie already addedddd');
-              setIsAdded(true)
-
+            console.error("Error adding to watch later:", error);
+            if (error.response?.status === 400 && error.response.data.message === "movie already added") {
+              toast.warning("Movie is already in Watch Later!");  // ✅ Warning message
+            } else {
+              toast.error("Failed to add movie!"); // General error message
             }
-          }
-          else if (error.response && error.response.status === 500) {
-            console.log("error HAPPENED WHILE ADDING TO WATCHLATER", error);
-          }
         });
     }
 };

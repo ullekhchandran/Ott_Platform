@@ -16,10 +16,7 @@ const Home = () => {
 
 
     const loadAllMovies=()=>{
-        axios.get(`${BACKEND_URL}/movies`,{
-
-            headers:{Authorization: `Bearer ${localStorage.getItem('token')}`}
-        })
+        axios.get(`${BACKEND_URL}/movies`)
         
         .then(response=>{
             setOldMovies(response.data.movies);
@@ -44,9 +41,7 @@ const Home = () => {
         loadAllMovies();
         
 
-        axios.get(`${BACKEND_URL}/latestMovies`,{
-            headers:{Authorization: `Bearer ${localStorage.getItem('token')}`}
-        })
+        axios.get(`${BACKEND_URL}/latestMovies`)
         .then(response=>{
             setLatestMovies(response.data.movies);
            

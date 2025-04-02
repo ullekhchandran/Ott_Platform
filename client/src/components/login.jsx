@@ -19,9 +19,9 @@ const Login = () => {
         axios.post(`${BACKEND_URL}/login`, { email, password })
             .then((response) => {
               
-                if (response.data.message === "loginsuccess") {
-                    localStorage.setItem('token', response.data.token);
-            
+                if (response.data.message === "Login successful") {
+                 
+                    localStorage.setItem("isAuthenticated",response.data.isAuthenticated)
                     localStorage.setItem('name',response.data.userName)
                     navigate('/home');
                 } 

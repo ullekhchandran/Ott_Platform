@@ -7,16 +7,15 @@ import { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import CustomIcons from './pagination';
+import { useNavigate } from 'react-router-dom';
 
 const Watchlater = () => {
   const [watchlaterMovies, setWatchlaterMovies] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const moviesPerPage = 3;  // Set movies per page to 3
-
+  const navigate=useNavigate()
   const fetchWatchLaterMovies = () => {
-    axios.get(`${BACKEND_URL}/watchlater`, {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-    })
+    axios.get(`${BACKEND_URL}/watchlater`)
       .then(response => {
         setWatchlaterMovies(response.data.watchLaterMovies);
         console.log(response.data.watchLaterMovies);
@@ -39,22 +38,23 @@ const Watchlater = () => {
 
   const handleRemoveMovie = (movieId) => {
     console.log("Removing movie with ID:", movieId);
-    
-    // Remove movie from the list
+
+    // Immediately update UI by filtering out the movie
     setWatchlaterMovies(prevMovies => prevMovies.filter(movie =>
-      movie.movieId._id !== movieId
+        movie.movieId._id !== movieId
     ));
+
+    // Show toast notification
     toast.error("Movie removed from Watch Later");
 
-    // Adjust pagination if necessary
-    const totalPages = Math.ceil(watchlaterMovies.length / moviesPerPage);
-    if (currentPage > totalPages && totalPages > 0) {
-      setCurrentPage(totalPages); // Go to the last valid page
-    } else if (currentMovies.length === 0 && currentPage > 1) {
-      setCurrentPage(currentPage - 1); // Move to the previous page if no content
-    }
-  };
+    // Re-fetch movies to ensure backend is in sync
+    fetchWatchLaterMovies();
+};
 
+  if(watchlaterMovies.length===0){
+    navigate('/home')
+
+  }
   return (
     <div className='home'>
       <Navbar />

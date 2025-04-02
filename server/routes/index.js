@@ -51,38 +51,50 @@ router.post('/register', async (req, res) => {
 
 router.post("/login", async (req, res) => {
   try {
-    console.log(req);
+    console.log("Login request:", req.body);
     const { email, password } = req.body;
-    console.log(req.body);
 
     const foundUser = await userModel.findOne({ email });
 
     console.log("Found user:", foundUser);
-    if (!foundUser || !bcrypt.compare(password, foundUser.password)) {
-      return res.status(401).json({ message: "Invalid credentials" })
+    if (!foundUser) {
+      return res.status(401).json({ message: "User not found" });
     }
+
+    const isPasswordValid = await bcrypt.compare(password, foundUser.password);
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
+
     if (foundUser.block === true) {
       return res.status(402).json({ message: "User has been blocked" });
     }
 
     const token = jwt.sign({ userId: foundUser._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
+    console.log("THis is the token", token)
 
     res.cookie("token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",//User secure cookies in production
-      sameSite: 'strict',
-      maxAge: 3600000//1 hour
-    })
-    return res.status(201).json({ message: "loginsuccess", userName: foundUser.name })
+      httpOnly: true,  // Prevents client-side access
+      secure:false,   // Set to `true` in production (HTTPS)
+      sameSite: "lax", // Allow cross-origin requests
+      maxAge: 3600000  // 1 hour expiration
+    });
+   
+
+    
+    return res.status(200).json({ message: "Login successful", userName: foundUser.name,isAuthenticated:true });
+
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal server Error" })
+    console.error("Login error:", error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
-})
+});
 
 
 
 const verifyToken = (req, res, next) => {
+  console.log("Cookies received in request:", req.cookies);
+  console.log("Incoming token from cookie:", req.cookies.token);
   const token = req.cookies.token; // Extract token from cookies
   console.log("Incoming token from cookie:", token);
 
@@ -102,10 +114,25 @@ const verifyToken = (req, res, next) => {
 
 
 
+router.get("/auth/verify", (req, res) => {
+  if (req.cookies.token) { // Check if the token exists
+      // Verify the token (Assume JWT)
+      jwt.verify(req.cookies.token, process.env.JWT_SECRET, (err, decoded) => {
+          if (err) {
+              return res.json({ authenticated: false });
+          }
+          res.json({ authenticated: true, user: decoded });
+      });
+  } else {
+      res.json({ authenticated: false });
+  }
+});
 
 
 
-router.get('/home', verifyToken, (req, res) => {
+
+
+router.get('/home',verifyToken,(req, res) => {
 
   res.status(200).json({ message: "Welcome to home page!,you are authenticated " })
 
@@ -117,7 +144,9 @@ router.get('/home', verifyToken, (req, res) => {
 
 
 
-router.get("/movies", verifyToken, (req, res) => {
+router.get("/movies", verifyToken,(req, res) => {
+  console.log("Received cookies:", req.cookies);
+
   movieModel.find()
     .then(movies => {
       res.status(200).json({ message: "movies finded", movies })
@@ -128,7 +157,7 @@ router.get("/movies", verifyToken, (req, res) => {
     })
 })
 
-router.get("/latestMovies", verifyToken, (req, res) => {
+router.get("/latestMovies",verifyToken, (req, res) => {
   movieModel.find()
     .sort({ createdAt: -1 })
     .limit(6)
@@ -241,6 +270,11 @@ router.post("/watchlater", verifyToken, (req, res) => {
 
   const userId = req.userId;
   const { movieId } = req.body;
+
+  
+  console.log("Received request to /watchlater");
+  console.log("User ID:", userId);
+  console.log("Movie ID:", movieId);
   userModel.findById(userId)
 
     .then((user) => {
