@@ -114,21 +114,36 @@ const verifyToken = (req, res, next) => {
 
 
 
+// router.get("/auth/verify", (req, res) => {
+//   if (req.cookies.token) { // Check if the token exists
+//       // Verify the token (Assume JWT)
+//       jwt.verify(req.cookies.token, process.env.JWT_SECRET, (err, decoded) => {
+//           if (err) {
+//               return res.json({ authenticated: false });
+//           }
+//           res.json({ authenticated: true, user: decoded });
+//       });
+//   } else {
+//       res.json({ authenticated: false });
+//   }
+// });
+
+
 router.get("/auth/verify", (req, res) => {
-  if (req.cookies.token) { // Check if the token exists
-      // Verify the token (Assume JWT)
-      jwt.verify(req.cookies.token, process.env.JWT_SECRET, (err, decoded) => {
-          if (err) {
-              return res.json({ authenticated: false });
-          }
-          res.json({ authenticated: true, user: decoded });
-      });
-  } else {
-      res.json({ authenticated: false });
+  console.log("🔍 Cookies received:", req.cookies); // Log received cookies
+
+  if (!req.cookies.token) {
+      return res.json({ authenticated: false, message: "No token received" });
   }
+
+  jwt.verify(req.cookies.token, process.env.JWT_SECRET, (err, decoded) => {
+      if (err) {
+          console.log("❌ JWT Verification Error:", err.message);
+          return res.json({ authenticated: false, message: "Invalid token" });
+      }
+      res.json({ authenticated: true, user: decoded });
+  });
 });
-
-
 
 
 
