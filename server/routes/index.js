@@ -71,21 +71,24 @@ router.post("/login", async (req, res) => {
     }
 
     const token = jwt.sign({ userId: foundUser._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
-    console.log("THis is the token", token)
+    console.log("This is the token", token);
+
     res.cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",  // ✅ Secure only in production
+      secure: true,  // ✅ Secure only in production
       sameSite: "None"  // ✅ Needed for cross-origin cookies
     });
-    res.json({ authenticated: true });
 
-
-
-    return res.status(200).json({ message: "Login successful", userName: foundUser.name, isAuthenticated: true });
+    // ✅ Send only ONE response
+    return res.status(200).json({ 
+      message: "Login successful", 
+      userName: foundUser.name, 
+      isAuthenticated: true 
+    });
 
   } catch (error) {
     console.error("Login error:", error);
-    res.status(500).json({ message: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 });
 

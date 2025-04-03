@@ -13,15 +13,19 @@ var adminRouter= require('./routes/admin');
 var app = express();
 
 const db=require('./database/db')
-console.log("Allowed Frontend URL:", process.env.FRONTEND_URL);
 
 app.use(cors({
-  origin: process.env.FRONTEND_URL || "http://localhost:5173",  
-  credentials: true,  // ✅ Allows sending cookies
-  methods: ["GET", "POST", "PUT", "DELETE"],  
-  allowedHeaders: ["Content-Type", "Authorization"]
-}));
+  origin: (origin, callback) => {
+    const allowedOrigins = [process.env.FRONTEND_URL, 'http://localhost:5173']; // Add your local origin
 
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true
+}));
 
 
 
