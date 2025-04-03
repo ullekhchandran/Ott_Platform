@@ -322,7 +322,7 @@ router.post("/watchlater", (req, res) => {
 
 
 
-router.get('/watchlater', verifyToken, (req, res) => {
+router.get('/watchlater', (req, res) => {
 
   const userId = req.userId
   console.log(userId)
