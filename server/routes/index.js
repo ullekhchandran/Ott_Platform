@@ -201,7 +201,7 @@ router.get("/movie/:id", (req, res) => {
 
 
 
-router.get("/latestmovies", verifyToken, (req, res) => {
+router.get("/latestmovies",verifyToken, (req, res) => {
 
   movieModel.find()
     .sort({ createdAt: -1 })
@@ -220,7 +220,7 @@ router.get("/latestmovies", verifyToken, (req, res) => {
 //-----------------  search------------------
 
 
-router.get('/searchmovie', verifyToken, (req, res) => {
+router.get('/searchmovie',verifyToken, (req, res) => {
   const searchTerm = req.query.q
   console.log("Search term is:", searchTerm)
   console.log("Search term type:", typeof searchTerm);
@@ -266,7 +266,7 @@ router.get('/searchmovie', verifyToken, (req, res) => {
 
 
 
-router.post("/watchlater", (req, res) => {
+router.post("/watchlater",verifyToken, (req, res) => {
 
   const userId = req.userId;
   const { movieId } = req.body;
@@ -322,7 +322,7 @@ router.post("/watchlater", (req, res) => {
 
 
 
-router.get('/watchlater', (req, res) => {
+router.get('/watchlater',verifyToken, (req, res) => {
 
   const userId = req.userId
   console.log(userId)
