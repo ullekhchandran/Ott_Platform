@@ -266,7 +266,7 @@ router.get('/searchmovie', verifyToken, (req, res) => {
 
 
 
-router.post("/watchlater", verifyToken, (req, res) => {
+router.post("/watchlater", (req, res) => {
 
   const userId = req.userId;
   const { movieId } = req.body;
