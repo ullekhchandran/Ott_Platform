@@ -32,11 +32,11 @@ const Navbar = () => {
               </li>
              
               <li className="nav-item me-3" >
-                <a className="nav-link text-light " href="/watchlater" >Watchlater </a>
+                <a className="nav-link text-light " href="/watchlater" >Watch Later</a>
               </li>
              
               <li className="nav-item " >
-                <a className="nav-link text-light " href="/watchhistory" >Watchhistory </a>
+                <a className="nav-link text-light " href="/watchhistory" >Watch History</a>
               </li>
              
             </ul>
