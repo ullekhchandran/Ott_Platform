@@ -7,8 +7,8 @@ import { useNavigate } from 'react-router-dom';
 
 
 const Login = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('tester@gmail.com');
+    const [password, setPassword] = useState('Tester@99');
     const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
     
@@ -60,7 +60,7 @@ const Login = () => {
                                 className="form-control" 
                                 id="email" 
                                 placeholder="tester@gmail.com" 
-                                value="tester@gmail.com"
+                                value={email}
                                 onChange={(e) => setEmail(e.target.value)} 
                                 required 
                             />
@@ -71,7 +71,7 @@ const Login = () => {
                                 className="form-control" 
                                 id="password" 
                                 placeholder="Tester@99" 
-                                value="Tester@99"
+                                value={password}
                                 onChange={(e) => setPassword(e.target.value)} 
                                 required 
                             />
