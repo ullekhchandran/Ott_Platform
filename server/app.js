@@ -16,7 +16,8 @@ const db=require('./database/db')
 
 app.use(cors({
   origin: (origin, callback) => {
-    const allowedOrigins = [process.env.FRONTEND_URL, 'http://localhost:5173']; // Add your local origin
+    const allowedOrigins = process.env.FRONTEND_URL.split(',').map(url => url.trim());
+    allowedOrigins.push('http://localhost:5173');
 
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
@@ -26,6 +27,7 @@ app.use(cors({
   },
   credentials: true
 }));
+
 
 
 
