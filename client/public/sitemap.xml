@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://theater-ott.vercel.app/</loc></url>
+  <url><loc>https://theater-ott.vercel.app/register</loc></url>
+  <url><loc>https://theater-ott.vercel.app/login</loc></url>
+  <url><loc>https://theater-ott.vercel.app/forgotpassword</loc></url>
+  <url><loc>https://theater-ott.vercel.app/resetpassword2.0</loc></url>
+  <url><loc>https://theater-ott.vercel.app/home</loc></url>
+  <url><loc>https://theater-ott.vercel.app/plans</loc></url>
+  <url><loc>https://theater-ott.vercel.app/subscribe</loc></url>
+  <url><loc>https://theater-ott.vercel.app/watchlater</loc></url>
+  <url><loc>https://theater-ott.vercel.app/watchhistory</loc></url>
+  <url><loc>https://theater-ott.vercel.app/changepassword</loc></url>
+</urlset>
