@@ -1,0 +1,4 @@
+User-agent: *
+
+Allow: /sitemap.xml
+Sitemap: https://theater-ott.vercel.app/sitemap.xml
